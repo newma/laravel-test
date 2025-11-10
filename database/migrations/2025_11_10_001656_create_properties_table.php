@@ -15,6 +15,23 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
         });
+        Schema::create('properties', function (Blueprint $table) {
+            $table->id();
+            $table->string('organisation');
+            $table->string('property_type');
+            $table->unsignedBigInteger('parent_property_id')->nullable();
+            $table->string('uprn');
+            $table->string('address');
+            $table->string('town')->nullable();
+            $table->string('postcode');
+            $table->boolean('live')->default(true);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('parent_property_id')
+                ->references('id')->on('properties')
+                ->nullOnDelete();
+        });
     }
 
     /**
