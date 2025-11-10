@@ -24,11 +24,32 @@ testing
 # How To Deploy
 
 ### For first time only !
-- `git clone https://github.com/refactorian/laravel-docker.git`
-- `cd laravel-docker`
+- `git clone https://github.com/newma/laravel-test.git`
+- `cd laravel-test`
 - `docker compose up -d --build`
 - `docker compose exec php bash`
 - `composer setup`
+- `php artisan migrate:fresh`
+- `php artisan db:seed`
+
+###  Your request to write the raw query:
+```` 
+# The n+1 version
+SELECT *
+FROM properties
+WHERE (
+    SELECT COUNT(*)
+    FROM certificates
+    WHERE certificates.property_id = properties.id
+) > 5;
+
+# Optimised version
+SELECT p.*, COUNT(c.id) AS cert_count
+FROM properties p
+JOIN certificates c ON c.property_id = p.id
+GROUP BY p.id
+HAVING COUNT(c.id) > 5;
+````
 
 ### From the second time onwards
 - `docker compose up -d`
