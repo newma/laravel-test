@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-        });
-        Schema::create('properties', function (Blueprint $table) {
-            $table->id();
             $table->string('organisation');
             $table->string('property_type');
             $table->unsignedBigInteger('parent_property_id')->nullable();
